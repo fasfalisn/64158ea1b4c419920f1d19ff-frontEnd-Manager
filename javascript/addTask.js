@@ -2,12 +2,11 @@ let apiEmployeeApi = new TempApi.EmployeeApi();import TempApi from '../src/index
   const advanceSelect = document.getElementById('iiaet');
   const selectedElement = advanceSelect.getAttribute('selected-element');
   if (!selectedElement) return;
-  [...advanceSelect.querySelectorAll("[annotationname]")].forEach(
-    optionElement => {
-      if (optionElement.value === selectedElement)
-        optionElement.setAttribute("selected", true);
+  [...advanceSelect.options].forEach((optionElement) => {
+    if (optionElement.textContent === selectedElement) {
+      optionElement.selected = true;
     }
-  );
+  });
 });document.getElementById('itvy5').onclick = (event) => {
     event.preventDefault();
     task['taskName'] = document.querySelector("[annotationname = 'taskName']").value;task['taskStatus'] = document.querySelector("[annotationname = 'taskStatus']").value;task['taskEmployee'] = document.querySelector("[annotationname = 'taskEmployee']").value;apiTaskApi.createtask( task, (error, data, response) => { if (error) {console.error(error);} else { console.log('API called successfully. Returned data: ' + data); {   location.href= '/Home' ;}}});};window.onload = () => {apiEmployeeApi.getAllemployee((error, data, response) => { if (error) {console.error(error);} else { console.log('API called successfully. Returned data: ' + data); const subDataElements =[...document.getElementById("iitf7").querySelectorAll( "[dataitem='true']" )].filter(
@@ -15,9 +14,9 @@ let apiEmployeeApi = new TempApi.EmployeeApi();import TempApi from '../src/index
     !array.reduce((hasAncestorFlag, dataItem) => hasAncestorFlag || (element.compareDocumentPosition(dataItem) & Node.DOCUMENT_POSITION_CONTAINS) === 8, false)
   );const map = new Map();
     if( data.length > subDataElements.length){
-      for(let i = 0; i <=  data.length - subDataElements.length; i++){
+      for(let i = 0; data.length > subDataElements.length; i++){
         let parentNode = subDataElements[0].parentNode;
-        let child = parentNode.childNodes[0].cloneNode(true);
+        let child = subDataElements[0].cloneNode(true)
         parentNode.appendChild(child);
         subDataElements.push(child);
       }

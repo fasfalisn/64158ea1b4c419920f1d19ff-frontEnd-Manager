@@ -2,19 +2,18 @@ let apiTaskApi = new TempApi.TaskApi();import TempApi from '../src/index';let ap
   const advanceSelect = document.getElementById('iiaet');
   const selectedElement = advanceSelect.getAttribute('selected-element');
   if (!selectedElement) return;
-  [...advanceSelect.querySelectorAll("[annotationname]")].forEach(
-    optionElement => {
-      if (optionElement.value === selectedElement)
-        optionElement.setAttribute("selected", true);
+  [...advanceSelect.options].forEach((optionElement) => {
+    if (optionElement.textContent === selectedElement) {
+      optionElement.selected = true;
     }
-  );
+  });
 });document.getElementById('itvy5').onclick = (event) => {
     event.preventDefault();
     let taskId = window.location.pathname.replace('/updateTask/','');let task = new TempApi.Task();task['taskName'] = document.querySelector("[annotationname = 'taskName']").value;task['taskStatus'] = document.querySelector("[annotationname = 'taskStatus']").value;task['taskEmployee'] = document.querySelector("[annotationname = 'taskEmployee']").value; let opts = {task};apiTaskApi.updatetask( taskId, opts, (error, data, response) => { if (error) {console.error(error);} else { console.log('API called successfully. Returned data: ' + data); document.querySelector('[annotationname = taskName]').value = response.body.query.taskName ;document.querySelector('[annotationname = taskStatus]').value = response.body.query.taskStatus ;document.querySelector('[annotationname = taskEmployee]').value = response.body.query.taskEmployee ;{   location.href= '/Home' ;}}});};window.onload = () => {let taskId = window.location.pathname.replace('/updateTask/','');apiTaskApi.gettask( taskId, (error, data, response) => { if (error) {console.error(error);} else { console.log('API called successfully. Returned data: ' + data); const map = new Map();try { document.querySelector('[annotationname = taskName]').value = response.body.query.taskName; } catch (e) { console.log(e) };try { document.querySelector('[annotationname = taskStatus]').value = response.body.query.taskStatus; } catch (e) { console.log(e) };try { 
         document.querySelector('[annotationname = taskEmployee]').setAttribute('selected-element',response.body.query.taskEmployee.employeeName);document.dispatchEvent(new Event("aligntaskEmployee"));
         const insideSubdocument = document.querySelector("[annotationname = 'taskEmployee']");
         if (insideSubdocument !==null) {
-           try {const attributeSubdocumentElement = insideSubdocument.querySelector("[annotationname = 'employeeName']"); if (attributeSubdocumentElement !== null) { attributeSubdocumentElement.textContent = response.body.query.taskEmployee.employeeName;}} catch (e) {console.log(e);};
+           
         }
       if(response.body.query.taskEmployee._id){
         map.set(
@@ -47,9 +46,9 @@ let apiTaskApi = new TempApi.TaskApi();import TempApi from '../src/index';let ap
     !array.reduce((hasAncestorFlag, dataItem) => hasAncestorFlag || (element.compareDocumentPosition(dataItem) & Node.DOCUMENT_POSITION_CONTAINS) === 8, false)
   );const map = new Map();
     if( data.length > subDataElements.length){
-      for(let i = 0; i <=  data.length - subDataElements.length; i++){
+      for(let i = 0; data.length > subDataElements.length; i++){
         let parentNode = subDataElements[0].parentNode;
-        let child = parentNode.childNodes[0].cloneNode(true);
+        let child = subDataElements[0].cloneNode(true)
         parentNode.appendChild(child);
         subDataElements.push(child);
       }
